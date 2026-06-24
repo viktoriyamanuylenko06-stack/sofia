@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sofia's Learning Space</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rose:    #E8A4B0;
+  --rose-d:  #C4707F;
+  --rose-l:  #FDF0F2;
+  --lilac:   #C5B4D9;
+  --lilac-d: #9478BB;
+  --lilac-l: #F3EEF9;
+  --peach:   #F0C4A8;
+  --peach-d: #C8845A;
+  --peach-l: #FDF4EE;
+  --sky:     #A8C8DC;
+  --sky-d:   #4E88A8;
+  --sky-l:   #EEF5FA;
+  --sage:    #A8C4A8;
+  --sage-d:  #567056;
+  --sage-l:  #EEF6EE;
+  --mauve:   #C4A8C4;
+  --mauve-d: #845884;
+  --mauve-l: #F6EEF6;
+  --ink:     #2C2030;
+  --muted:   #8A7890;
+  --border:  rgba(44,32,48,.09);
+  --bg:      #FBF7F8;
+  --white:   #FFFFFF;
+  --shadow:  rgba(196,112,127,.12);
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* subtle petal bg */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 5% 0%, rgba(232,164,176,.13) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 350px at 95% 100%, rgba(197,180,217,.12) 0%, transparent 70%);
+}
+
+/* ── HEADER ── */
+header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3.5rem 1.5rem 0;
+}
+
+.header-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--rose-l);
+  border: 1px solid rgba(196,112,127,.2);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rose-d);
+  margin-bottom: 1.1rem;
+  opacity: 0;
+  animation: up .55s ease forwards .1s;
+}
+.header-pill::before { content: '✦'; font-size: 9px; }
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.08;
+  color: var(--ink);
+  opacity: 0;
+  animation: up .65s ease forwards .22s;
+}
+h1 em {
+  font-style: italic;
+  color: var(--rose-d);
+}
+
+.header-sub {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 300;
+  margin-top: .65rem;
+  opacity: 0;
+  animation: up .65s ease forwards .35s;
+}
+
+/* wavy divider */
+.wave-divider {
+  margin: 2rem auto 0;
+  opacity: 0;
+  animation: up .5s ease forwards .45s;
+  display: block;
+  width: 120px;
+  height: 18px;
+}
+
+/* ── MAIN CONTENT ── */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 2rem auto 0;
+  padding: 0 1.25rem 5rem;
+}
+
+/* ── SECTION LABEL ── */
+.sec-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 2.2rem 0 .9rem;
+  opacity: 0;
+  animation: up .45s ease forwards .5s;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── GRID ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+@media (max-width: 620px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+@media (min-width: 621px) and (max-width: 780px) {
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1.35rem 1.1rem;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  opacity: 0;
+  animation: up .45s ease forwards;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px var(--shadow);
+}
+
+/* top colour strip */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--c);
+  border-radius: 14px 14px 0 0;
+}
+
+/* icon blob */
+.card-blob {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--cl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  margin-bottom: .3rem;
+  flex-shrink: 0;
+}
+
+.card-cat {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: .05rem;
+}
+
+.card p {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.5;
+  flex: 1;
+  margin-top: .1rem;
+}
+
+.card-arrow {
+  align-self: flex-end;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--cl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--c);
+  margin-top: .5rem;
+  flex-shrink: 0;
+  transition: background .2s, transform .2s;
+}
+.card:hover .card-arrow {
+  background: var(--c);
+  color: white;
+  transform: translateX(2px);
+}
+
+/* colour tokens via inline style */
+/* usage: style="--c:#E8A4B0;--cl:#FDF0F2" */
+
+/* ── MIRO CARD ── */
+.card-miro {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--ink);
+  color: white;
+  border-color: transparent;
+  padding: 1.5rem 1.75rem;
+}
+.card-miro::after { background: var(--rose); }
+.card-miro p { color: rgba(255,255,255,.5); }
+.card-miro .card-cat { color: var(--rose); }
+.card-miro h3 { color: white; font-size: 1.1rem; }
+.card-miro .card-arrow {
+  background: rgba(255,255,255,.1);
+  color: white;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.card-miro:hover .card-arrow { background: var(--rose); color: white; }
+.card-miro:hover { box-shadow: 0 10px 36px rgba(44,32,48,.22); }
+
+.miro-spin {
+  width: 48px; height: 48px;
+  border: 2px solid rgba(232,164,176,.5);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  animation: spin 16s linear infinite;
+}
+
+.miro-text { flex: 1; }
+
+/* stagger delays */
+.card:nth-child(1) { animation-delay: .08s }
+.card:nth-child(2) { animation-delay: .14s }
+.card:nth-child(3) { animation-delay: .20s }
+.card:nth-child(4) { animation-delay: .26s }
+.card:nth-child(5) { animation-delay: .32s }
+.card:nth-child(6) { animation-delay: .38s }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 1rem 1.5rem 2.5rem;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-pill">Your learning hub</div>
+  <h1>Sofia's <em>Learning Space</em></h1>
+  <p class="header-sub">Everything you need — beautifully in one place.</p>
+  <svg class="wave-divider" viewBox="0 0 120 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 9 C20 2, 40 16, 60 9 S100 2, 120 9" stroke="#E8A4B0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="60" cy="9" r="2.5" fill="#E8A4B0"/>
+    <circle cx="10" cy="9" r="1.5" fill="#C5B4D9" opacity=".6"/>
+    <circle cx="110" cy="9" r="1.5" fill="#C5B4D9" opacity=".6"/>
+  </svg>
+</header>
+
+<main>
+
+  <!-- BOOKS -->
+  <div class="sec-label">📚 Books</div>
+  <div class="grid-2">
+
+    <a class="card" href="https://drive.google.com/file/d/1YYNz6qlUqMmtm9_WJ3Fx0Wmhz1II8KC1/view?usp=sharing" target="_blank" style="--c:#C4707F;--cl:#FDF0F2">
+      <div class="card-blob">📖</div>
+      <div class="card-cat">Textbook</div>
+      <h3>Student's Book</h3>
+      <p>Your main coursebook — open anytime.</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" href="https://drive.google.com/file/d/10smIUhE6eZBmtSf63ugKf3raLzqPChos/view?usp=sharing" target="_blank" style="--c:#9478BB;--cl:#F3EEF9">
+      <div class="card-blob">✏️</div>
+      <div class="card-cat">Practice</div>
+      <h3>Workbook</h3>
+      <p>Exercises and tasks for each unit.</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+  </div>
+
+  <!-- AUDIO & VIDEO -->
+  <div class="sec-label" style="animation-delay:.55s">🎧 Audio & Video</div>
+  <div class="grid-3">
+
+    <a class="card" href="https://drive.google.com/drive/folders/1qNIo0dgmBHC_m4ZT2ZB5D2PqPnnxbZ5Z" target="_blank" style="--c:#4E88A8;--cl:#EEF5FA">
+      <div class="card-blob">🔊</div>
+      <div class="card-cat">Audio</div>
+      <h3>Student's Book Audio</h3>
+      <p>All listening tracks for the Student's Book.</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" href="https://drive.google.com/drive/folders/1vNZOUo8oUEiV6O0JRaKrOuHTRjiIzxPc" target="_blank" style="--c:#567056;--cl:#EEF6EE">
+      <div class="card-blob">🎧</div>
+      <div class="card-cat">Audio</div>
+      <h3>Workbook Audio</h3>
+      <p>All listening tracks for the Workbook.</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" href="https://drive.google.com/drive/folders/1Z06Jl4aFXOhnKkPCz_ADm6sf2ZVM02VN" target="_blank" style="--c:#845884;--cl:#F6EEF6">
+      <div class="card-blob">🎬</div>
+      <div class="card-cat">Video</div>
+      <h3>Video Materials</h3>
+      <p>Course videos to watch and practise.</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+  </div>
+
+  <!-- FINANCE & BOARD -->
+  <div class="sec-label" style="animation-delay:.6s">💳 Finance & Whiteboard</div>
+  <div class="grid-2">
+
+    <a class="card" href="https://docs.google.com/spreadsheets/d/1sRLj3a6l2J6yb91eweRnXeVM6pOGZtjajMPD4LvdgJQ/edit?usp=sharing" target="_blank" style="--c:#C8845A;--cl:#FDF4EE">
+      <div class="card-blob">💳</div>
+      <div class="card-cat">Finance</div>
+      <h3>Payment Schedule</h3>
+      <p>Track lesson payments and upcoming dates.</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card card-miro" href="https://miro.com/welcomeonboard/djlNQ2FYNldLN0d5NXlvWEE0akZDSkIzbE5VMVpPOFZ6MFdrc0hSc0NjM3N3NENxeGxLWkdTU0d3Sjgxd1JnbXlSeUNUOEZwZ2hncG9laVd5TVhzODNrNVdaZFN4cnJ0THd4R1p2Qnh2M0tSN2NFemROeXkzSEpLSkxtWUw3N3l0R2lncW1vRmFBVnlLcVJzTmdFdlNRPT0hdjE=?share_link_id=487374651312" target="_blank">
+      <div class="miro-spin">🗂️</div>
+      <div class="miro-text">
+        <div class="card-cat">Whiteboard</div>
+        <h3>Shared Miro Board</h3>
+        <p>Class notes, tasks &amp; visuals — all in one place.</p>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+  </div>
+
+</main>
+
+<footer>Sofia's Learning Space &nbsp;✦&nbsp; made with care</footer>
+
+</body>
+</html>
